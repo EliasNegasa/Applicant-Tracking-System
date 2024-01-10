@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { getClients } from '@/services/clientService'
+import ClientService from '@/services/ClientService'
 import { NotificationToast } from '@/utils/NotificationToast'
 
 export const useClientStore = defineStore('client', () => {
@@ -12,7 +12,7 @@ export const useClientStore = defineStore('client', () => {
     isLoading.value = true
 
     try {
-      const { data } = await getClients(params)
+      const { data } = await ClientService.getClients(params)
       clients.value = data.data
     } catch (err) {
       error.value = err.response.data.message || 'Error'

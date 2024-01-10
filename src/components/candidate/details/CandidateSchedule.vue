@@ -115,7 +115,7 @@ import { useScheduleStore } from '@/stores/schedule'
 import ScheduleSkeleton from '@/components/skeleton/ScheduleSkeleton.vue'
 import { storeToRefs } from 'pinia'
 import ConfirmationDialog from '@/components/candidate/details/ConfirmationDialog.vue'
-import { deleteSchedule } from '@/services/ScheduleService'
+import ScheduleService from '@/services/ScheduleService'
 import { NotificationToast } from '@/utils/NotificationToast'
 
 const openPopup = ref(false)
@@ -138,7 +138,7 @@ function handleClose() {
 
 async function handleConfirm() {
   try {
-    const { data } = await deleteSchedule(scheduleId.value)
+    const { data } = await ScheduleService.deleteSchedule(scheduleId.value)
     openPopup.value = false
     data ? NotificationToast('Interview Cancelled!', 'success') : ''
     scheduleStore.fetchSchedules(`candidate=${route.params.id}`)

@@ -48,21 +48,22 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { getCandidateById } from '@/services/CandidateService'
 import CandidateSkeleton from '@/components/skeleton/CandidateSkeleton.vue'
+import CandidateService from '@/services/CandidateService'
 
 const isLoading = ref(true)
 
 const props = defineProps({
   candidateId: {
-    type: String
+    type: Number,
+    required: true
   }
 })
 
 const candidate = ref({})
 
 onMounted(async () => {
-  const { data } = await getCandidateById(props.candidateId)
+  const { data } = await CandidateService.getCandidateById(props.candidateId)
   candidate.value = data
   isLoading.value = false
 })

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import { getCandidates } from '@/services/CandidateService'
+import CandidateService from '@/services/CandidateService'
 import { NotificationToast } from '@/utils/NotificationToast'
 
 export const useCandidateStore = defineStore('candidate', () => {
@@ -14,7 +14,7 @@ export const useCandidateStore = defineStore('candidate', () => {
     isLoading.value = true
 
     try {
-      const { data } = await getCandidates(params)
+      const { data } = await CandidateService.getCandidates(params)
       candidates.value = data.data
       count.value = data.metadata.total
     } catch (err) {
@@ -30,7 +30,7 @@ export const useCandidateStore = defineStore('candidate', () => {
     isLoading.value = true
 
     try {
-      const { data } = await getCandidates('status=Hired')
+      const { data } = await CandidateService.getCandidates('status=Hired')
       candidates.value = data.data
       hiredCount.value = data.metadata.total
     } catch (err) {
