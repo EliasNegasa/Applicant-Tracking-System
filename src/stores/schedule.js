@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
-import { getSchedules, updateSchedule, createSchedule } from '@/services/ScheduleService'
+import CandidateService from '@/services/CandidateService'
 import { NotificationToast } from '@/utils/NotificationToast'
 
 export const useScheduleStore = defineStore('scheduleStore', () => {
@@ -12,7 +12,7 @@ export const useScheduleStore = defineStore('scheduleStore', () => {
   async function fetchSchedules(params = '') {
     isLoading.value = true
     try {
-      const { data } = await getSchedules(params)
+      const { data } = await CandidateService.getSchedules(params)
       schedules.value = data.data
       count.value = data.metadata.total
     } catch (err) {
@@ -26,7 +26,7 @@ export const useScheduleStore = defineStore('scheduleStore', () => {
   async function addSchedule(_data) {
     isLoading.value = true
     try {
-      const { data } = await createSchedule(_data)
+      const { data } = await CandidateService.createSchedule(_data)
       data ? NotificationToast('Phone Feedback Added!', 'success') : ''
     } catch (err) {
       error.value = err.response?.data?.message || 'Error'
@@ -39,7 +39,7 @@ export const useScheduleStore = defineStore('scheduleStore', () => {
   async function editSchedule(id, data) {
     isLoading.value = true
     try {
-      await updateSchedule(id, data)
+      await CandidateService.updateSchedule(id, data)
       NotificationToast('Feedback Saved!', 'success')
     } catch (err) {
       error.value = err.response.data.message || 'Error'
